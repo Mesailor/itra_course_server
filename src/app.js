@@ -3,6 +3,8 @@ const cors = require("cors");
 const app = express();
 const portFromConfigs = 3004;
 
+const database = require("./database");
+
 const corsOptions = {
   origin: "http://localhost:5173",
 };
@@ -15,3 +17,5 @@ app.post("/signup", (req, res) => {});
 app.listen(portFromConfigs, () => {
   console.log(`Listen on port: ${portFromConfigs}`);
 });
+
+database.connect();
