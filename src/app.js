@@ -10,9 +10,50 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.post("/auth", (req, res) => {});
+app.use(express.json());
 
-app.post("/signup", (req, res) => {});
+app.post("/auth", async (req, res) => {
+  try {
+    const credentials = req.body;
+    const user = await database.getUser(credentials.name);
+    if (!user || user.password !== credentials.password) {
+      return res
+        .status(400)
+        .send({ success: false, message: "Wrong name or password!" });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "User authenticated successfully!",
+      user,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
+app.post("/signup", async (req, res) => {
+  try {
+    const newUser = await database.createUser(req.body);
+    res
+      .status(200)
+      .send({
+        success: true,
+        user: newUser,
+        message: "New user was created successfully!",
+      });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
 
 app.listen(portFromConfigs, () => {
   console.log(`Listen on port: ${portFromConfigs}`);

@@ -47,4 +47,16 @@ async function connect() {
   }
 }
 
-module.exports = { connect };
+async function createUser({ name, password }) {
+  const newUser = {
+    name,
+    password,
+  };
+  return await User.create(newUser);
+}
+
+async function getUser(name) {
+  return await User.findOne({ where: { name: name } });
+}
+
+module.exports = { connect, createUser, getUser };
