@@ -44,6 +44,12 @@ app.post("/signup", async (req, res) => {
     });
   } catch (e) {
     console.log(e);
+    if (e.errors[0].type === "unique violation") {
+      return res.status(400).send({
+        success: false,
+        message: "Sorry, user with this name already exist!",
+      });
+    }
     res.status(500).send({
       success: false,
       message: "Sorry, we have some problems on server...",
