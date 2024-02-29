@@ -3,16 +3,22 @@ const cors = require("cors");
 const config = require("config");
 const app = express();
 
-const { port, corsOptions } = config.get("serverConfig");
-
 const database = require("./database");
+const { validateUserData } = require("./validator");
+
+const { port, corsOptions } = config.get("serverConfig");
 
 app.use(cors(corsOptions));
 app.use(express.json());
 
 app.post("/auth", async (req, res) => {
+  const credentials = req.body;
   try {
-    const credentials = req.body;
+    const { error = null } = validateUserData(credentials);
+    if (error) {
+      return res.status(400).send({ success: false, message: error });
+    }
+
     const user = await database.getUser(credentials.name);
     if (!user || user.password !== credentials.password) {
       return res
@@ -36,6 +42,11 @@ app.post("/auth", async (req, res) => {
 
 app.post("/signup", async (req, res) => {
   try {
+    const { error = null } = validateUserData(req.body);
+    if (error) {
+      return res.status(400).send({ success: false, message: error });
+    }
+
     const newUser = await database.createUser(req.body);
     res.status(200).send({
       success: true,
