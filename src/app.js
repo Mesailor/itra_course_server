@@ -1,15 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const config = require("config");
 const app = express();
-const portFromConfigs = 3004;
+
+const { port, corsOptions } = config.get("serverConfig");
 
 const database = require("./database");
 
-const corsOptions = {
-  origin: "http://localhost:5173",
-};
 app.use(cors(corsOptions));
-
 app.use(express.json());
 
 app.post("/auth", async (req, res) => {
@@ -53,8 +51,8 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.listen(portFromConfigs, () => {
-  console.log(`Listen on port: ${portFromConfigs}`);
+app.listen(port, () => {
+  console.log(`Listen on port: ${port}`);
 });
 
 database.connect();
