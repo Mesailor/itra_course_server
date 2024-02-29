@@ -25,7 +25,7 @@ app.post("/auth", async (req, res) => {
     res.status(200).send({
       success: true,
       message: "User authenticated successfully!",
-      user,
+      user: { ...user.dataValues, password: null },
     });
   } catch (e) {
     console.log(e);
@@ -39,13 +39,11 @@ app.post("/auth", async (req, res) => {
 app.post("/signup", async (req, res) => {
   try {
     const newUser = await database.createUser(req.body);
-    res
-      .status(200)
-      .send({
-        success: true,
-        user: newUser,
-        message: "New user was created successfully!",
-      });
+    res.status(200).send({
+      success: true,
+      user: { ...newUser.dataValues, password: null },
+      message: "New user was created successfully!",
+    });
   } catch (e) {
     console.log(e);
     res.status(500).send({
