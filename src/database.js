@@ -21,10 +21,19 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        len: [1, 64],
+        isAlphanumeric: true,
+        isLowercase: true,
+      },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        len: [8, 64],
+        is: /^[!-z]{8,64}$/,
+      },
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
