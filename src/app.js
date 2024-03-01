@@ -14,11 +14,6 @@ app.use(express.json());
 app.post("/auth", async (req, res) => {
   const credentials = req.body;
   try {
-    const { error = null } = validateUserData(credentials);
-    if (error) {
-      return res.status(400).send({ success: false, message: error });
-    }
-
     const user = await database.getUser(credentials.name);
     if (!user || user.password !== credentials.password) {
       return res
