@@ -1,0 +1,16 @@
+{
+  "serverConfig": {
+    "port": "",
+    "corsOptions": {
+      "origin": ""
+    }
+  },
+
+  "dbConfig": {
+    "database": "",
+    "username": "",
+    "password": "",
+    "host": "",
+    "port": ""
+  }
+}
