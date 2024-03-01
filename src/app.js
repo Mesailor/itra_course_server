@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const config = require("config");
+const bcrypt = require("bcrypt");
 const app = express();
 
 const database = require("./database");
@@ -15,7 +16,7 @@ app.post("/auth", async (req, res) => {
   const credentials = req.body;
   try {
     const user = await database.getUser(credentials.name);
-    if (!user || user.password !== credentials.password) {
+    if (!user || !(await bcrypt.compare(credentials.password, user.password))) {
       return res
         .status(400)
         .send({ success: false, message: "Wrong name or password!" });

@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const config = require("config");
+const bcrypt = require("bcrypt");
 
 const { database, username, password, host, port } = config.get("dbConfig");
 
@@ -32,7 +33,7 @@ const User = sequelize.define(
       allowNull: false,
       validate: {
         len: [8, 64],
-        is: /^[!-z]{8,64}$/,
+        is: /^[!-z]{60}$/,
       },
     },
     isAdmin: {
@@ -59,7 +60,7 @@ async function connect() {
 async function createUser({ name, password }) {
   const newUser = {
     name,
-    password,
+    password: await bcrypt.hash(password, 10),
   };
   return await User.create(newUser);
 }
