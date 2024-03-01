@@ -39,7 +39,9 @@ app.post("/signup", async (req, res) => {
   try {
     const { error = null } = validateUserData(req.body);
     if (error) {
-      return res.status(400).send({ success: false, message: error });
+      return res
+        .status(400)
+        .send({ success: false, message: error.details[0].message });
     }
 
     const newUser = await database.createUser(req.body);
