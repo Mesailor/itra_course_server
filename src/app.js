@@ -71,6 +71,24 @@ app.get("/collections/:user_id", async (req, res) => {
   res.status(200).send(collections);
 });
 
+app.post("/collections/create", async (req, res) => {
+  try {
+    //validate collection object from client
+    const newCollection = await database.createCollection(req.body.payload);
+    return res.status(200).send({
+      success: true,
+      message: "New collection was created successfully!",
+      newCollection,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Listen on port: ${port}`);
 });

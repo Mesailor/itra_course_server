@@ -111,7 +111,17 @@ async function getOwnCollections(user_id) {
   });
 }
 
-module.exports = { connect, createUser, getUser, getOwnCollections };
+async function createCollection(newCollection) {
+  return await Collection.create(newCollection);
+}
+
+module.exports = {
+  connect,
+  createUser,
+  getUser,
+  getOwnCollections,
+  createCollection,
+};
 
 // STUBS
 // const { collections } = require("../../stubs");
