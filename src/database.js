@@ -47,6 +47,40 @@ const User = sequelize.define(
   }
 );
 
+const Collection = sequelize.define(
+  "Collection",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: "id",
+      },
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "My collection",
+    },
+    topic: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "Other",
+    },
+    description: {
+      type: DataTypes.TEXT,
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
+
 async function connect() {
   try {
     await sequelize.authenticate();
