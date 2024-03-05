@@ -103,4 +103,18 @@ async function getUser(name) {
   return await User.findOne({ where: { name: name } });
 }
 
-module.exports = { connect, createUser, getUser };
+async function getOwnCollections(user_id) {
+  return await Collection.findAll({
+    where: {
+      user_id,
+    },
+  });
+}
+
+module.exports = { connect, createUser, getUser, getOwnCollections };
+
+// STUBS
+// const { collections } = require("../../stubs");
+// collections.forEach((collection) => {
+//   Collection.create(collection);
+// });

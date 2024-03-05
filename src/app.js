@@ -66,6 +66,11 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.get("/collections/:user_id", async (req, res) => {
+  const collections = await database.getOwnCollections(req.params.user_id);
+  res.status(200).send(collections);
+});
+
 app.listen(port, () => {
   console.log(`Listen on port: ${port}`);
 });
