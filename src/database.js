@@ -239,12 +239,21 @@ async function createCollection(newCollection) {
   return await Collection.create(newCollection);
 }
 
+async function deleteCollection(id) {
+  return await Collection.destroy({
+    where: {
+      id,
+    },
+  });
+}
+
 module.exports = {
   connect,
   createUser,
   getUser,
   getOwnCollections,
   createCollection,
+  deleteCollection,
 };
 
 // STUBS

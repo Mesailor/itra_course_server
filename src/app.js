@@ -89,6 +89,22 @@ app.post("/collections/create", async (req, res) => {
   }
 });
 
+app.post("/collections/delete", async (req, res) => {
+  try {
+    await database.deleteCollection(req.body.payload);
+    return res.status(200).send({
+      success: true,
+      message: "Collection was deleted successfully!",
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Listen on port: ${port}`);
 });
