@@ -75,6 +75,10 @@ const Collection = sequelize.define(
     description: {
       type: DataTypes.TEXT,
     },
+    imageUrl: {
+      type: DataTypes.STRING,
+      defaultValue: "",
+    },
   },
   {
     timestamps: false,
