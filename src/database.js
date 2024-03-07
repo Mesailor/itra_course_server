@@ -239,6 +239,17 @@ async function createCollection(newCollection) {
   return await Collection.create(newCollection);
 }
 
+async function updateImageUrl({ imageUrl, collectionId }) {
+  return await Collection.update(
+    { imageUrl },
+    {
+      where: {
+        id: collectionId,
+      },
+    }
+  );
+}
+
 async function deleteCollection(id) {
   return await Collection.destroy({
     where: {
@@ -253,6 +264,7 @@ module.exports = {
   getUser,
   getOwnCollections,
   createCollection,
+  updateImageUrl,
   deleteCollection,
 };
 
