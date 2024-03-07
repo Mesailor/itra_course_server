@@ -173,6 +173,14 @@ async function deleteCollection(id) {
   });
 }
 
+async function updateCollection({ newCollection, collectionId }) {
+  return await Collection.update(newCollection, {
+    where: {
+      id: collectionId,
+    },
+  });
+}
+
 module.exports = {
   connect,
   createUser,
@@ -181,6 +189,7 @@ module.exports = {
   createCollection,
   updateImageUrl,
   deleteCollection,
+  updateCollection,
 };
 
 // STUBS

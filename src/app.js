@@ -120,6 +120,21 @@ app.post("/collections/delete", async (req, res) => {
   }
 });
 
+app.put("/collections/update", async (req, res) => {
+  try {
+    await database.updateCollection(req.body.payload);
+    return res
+      .status(200)
+      .send({ success: true, message: "Collection was updated successfully!" });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Listen on port: ${port}`);
 });
