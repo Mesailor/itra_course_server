@@ -79,125 +79,40 @@ const Collection = sequelize.define(
       type: DataTypes.STRING,
       defaultValue: "",
     },
-    custom_str1_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_str1_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_str2_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_str2_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_str3_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_str3_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_int1_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_int1_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_int2_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_int2_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_int3_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_int3_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_bool1_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_bool1_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_bool2_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_bool2_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_bool3_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_bool3_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_date1_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_date1_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_date2_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_date2_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_date3_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_date3_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_multext1_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_multext1_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_multext2_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_multext2_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
-    },
-    custom_multext3_state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    custom_multext3_name: {
-      type: DataTypes.STRING,
-      defaultValue: "custom string field",
+    itemsSchema: {
+      type: DataTypes.TEXT,
+      defaultValue: JSON.stringify({
+        custom_str1_name: "",
+        custom_str1_state: false,
+        custom_str2_name: "",
+        custom_str2_state: false,
+        custom_str3_name: "",
+        custom_str3_state: false,
+        custom_int1_name: "",
+        custom_int1_state: false,
+        custom_int2_name: "",
+        custom_int2_state: false,
+        custom_int3_name: "",
+        custom_int3_state: false,
+        custom_bool1_name: "",
+        custom_bool1_state: false,
+        custom_bool2_name: "",
+        custom_bool2_state: false,
+        custom_bool3_name: "",
+        custom_bool3_state: false,
+        custom_date1_name: "",
+        custom_date1_state: false,
+        custom_date2_name: "",
+        custom_date2_state: false,
+        custom_date3_name: "",
+        custom_date3_state: false,
+        custom_multext1_name: "",
+        custom_multext1_state: false,
+        custom_multext2_name: "",
+        custom_multext2_state: false,
+        custom_multext3_name: "",
+        custom_multext3_state: false,
+      }),
     },
   },
   {
