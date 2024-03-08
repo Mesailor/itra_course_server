@@ -15,7 +15,7 @@ const collectionSchema = Joi.object({
     .max(32)
     .required(),
   topic: Joi.string().pattern(new RegExp(/^[a-zA-Z]{1,16}$/)),
-  description: Joi.string().pattern(new RegExp(/^[!-z ]*$/)),
+  description: Joi.string().pattern(new RegExp(/^[!-z \n]*$/)),
   imageUrl: Joi.string(),
   itemsSchema: Joi.string().required(),
 });
