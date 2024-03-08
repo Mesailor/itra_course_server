@@ -57,30 +57,46 @@ const Collection = sequelize.define(
     },
     user_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: User,
         key: "id",
       },
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(32),
       allowNull: false,
       defaultValue: "My collection",
+      validate: {
+        len: [1, 32],
+        is: /[a-zA-Z0-9 ]{1,32}/,
+      },
     },
     topic: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(16),
       allowNull: false,
-      defaultValue: "Other",
+      defaultValue: "other",
+      validate: {
+        len: [1, 16],
+        isAlpha: true,
+      },
     },
     description: {
       type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: "",
+      validate: {
+        is: /[!-z ]*/,
+      },
     },
     imageUrl: {
       type: DataTypes.STRING,
-      defaultValue: "",
+      allowNull: false,
+      defaultValue: "url_of_default_image",
     },
     itemsSchema: {
       type: DataTypes.TEXT,
+      allowNull: false,
       defaultValue: JSON.stringify({
         custom_str1_name: "",
         custom_str1_state: false,

@@ -5,7 +5,11 @@ const bcrypt = require("bcrypt");
 const app = express();
 
 const database = require("./database");
-const { validateUserData } = require("./validator");
+const {
+  validateUserData,
+  validateCollectionData,
+  validateUpdateCollectionSchema,
+} = require("./validator");
 
 const { port, corsOptions } = config.get("serverConfig");
 
@@ -73,7 +77,13 @@ app.get("/collections/:user_id", async (req, res) => {
 
 app.post("/collections/create", async (req, res) => {
   try {
-    //validate collection object from client
+    const { error = null } = validateCollectionData(req.body.payload);
+    if (error) {
+      return res
+        .status(400)
+        .send({ success: false, message: error.details[0].message });
+    }
+
     const newCollection = await database.createCollection(req.body.payload);
     return res.status(200).send({
       success: true,
@@ -104,7 +114,7 @@ app.put("/collections/updateImageUrl", async (req, res) => {
   }
 });
 
-app.post("/collections/delete", async (req, res) => {
+app.delete("/collections/delete", async (req, res) => {
   try {
     await database.deleteCollection(req.body.payload);
     return res.status(200).send({
@@ -122,6 +132,15 @@ app.post("/collections/delete", async (req, res) => {
 
 app.put("/collections/update", async (req, res) => {
   try {
+    const { error = null } = validateUpdateCollectionSchema(
+      req.body.payload.newCollection
+    );
+    if (error) {
+      return res
+        .status(400)
+        .send({ success: false, message: error.details[0].message });
+    }
+
     await database.updateCollection(req.body.payload);
     return res
       .status(200)
