@@ -154,11 +154,14 @@ async function createUser({ name, password }) {
   return await User.create(newUser);
 }
 
-async function getUser(name) {
-  return await User.findOne({ where: { name: name } });
+async function getUser({ name, id }) {
+  if (name) {
+    return await User.findOne({ where: { name: name } });
+  }
+  return await User.findOne({ where: { id } });
 }
 
-async function getOwnCollections(user_id) {
+async function getCollections(user_id) {
   return await Collection.findAll({
     where: {
       user_id,
@@ -201,7 +204,7 @@ module.exports = {
   connect,
   createUser,
   getUser,
-  getOwnCollections,
+  getCollections,
   createCollection,
   updateImageUrl,
   deleteCollection,

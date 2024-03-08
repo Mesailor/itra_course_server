@@ -19,7 +19,7 @@ app.use(express.json());
 app.post("/auth", async (req, res) => {
   const credentials = req.body;
   try {
-    const user = await database.getUser(credentials.name);
+    const user = await database.getUser({ name: credentials.name });
     if (!user || !(await bcrypt.compare(credentials.password, user.password))) {
       return res
         .status(400)
@@ -71,8 +71,14 @@ app.post("/signup", async (req, res) => {
 });
 
 app.get("/collections/:user_id", async (req, res) => {
-  const collections = await database.getOwnCollections(req.params.user_id);
-  res.status(200).send(collections);
+  const user = await database.getUser({ id: req.params.user_id });
+  if (!user) {
+    return res
+      .status(404)
+      .send({ status: 404, message: "No such userpage exists" });
+  }
+  const collections = await database.getCollections(req.params.user_id);
+  res.status(200).send({ status: 200, collections });
 });
 
 app.post("/collections/create", async (req, res) => {
