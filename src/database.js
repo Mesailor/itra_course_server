@@ -136,6 +136,74 @@ const Collection = sequelize.define(
   }
 );
 
+const Item = sequelize.define("Item", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  collection_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Collection,
+      key: "id",
+    },
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "New Item",
+  },
+  tags: {
+    type: DataTypes.JSON,
+  },
+  custom_str1_value: {
+    type: DataTypes.STRING,
+  },
+  custom_str2_value: {
+    type: DataTypes.STRING,
+  },
+  custom_str3_value: {
+    type: DataTypes.STRING,
+  },
+  custom_int1_value: {
+    type: DataTypes.INTEGER,
+  },
+  custom_int2_value: {
+    type: DataTypes.INTEGER,
+  },
+  custom_int2_value: {
+    type: DataTypes.INTEGER,
+  },
+  custom_date1_value: {
+    type: DataTypes.DATE,
+  },
+  custom_date2_value: {
+    type: DataTypes.DATE,
+  },
+  custom_date3_value: {
+    type: DataTypes.DATE,
+  },
+  custom_bool1_value: {
+    type: DataTypes.BOOLEAN,
+  },
+  custom_bool2_value: {
+    type: DataTypes.BOOLEAN,
+  },
+  custom_bool3_value: {
+    type: DataTypes.BOOLEAN,
+  },
+  custom_multext1_value: {
+    type: DataTypes.TEXT,
+  },
+  custom_multext2_value: {
+    type: DataTypes.TEXT,
+  },
+  custom_multext3_value: {
+    type: DataTypes.TEXT,
+  },
+});
+
 async function connect() {
   try {
     await sequelize.authenticate();
@@ -200,6 +268,22 @@ async function updateCollection({ newCollection, collectionId }) {
   });
 }
 
+async function getCollection(collectionId) {
+  return await Collection.findOne({
+    where: {
+      id: collectionId,
+    },
+  });
+}
+
+async function getItems(collectionId) {
+  return await Item.findAll({
+    where: {
+      collection_id: collectionId,
+    },
+  });
+}
+
 module.exports = {
   connect,
   createUser,
@@ -209,10 +293,12 @@ module.exports = {
   updateImageUrl,
   deleteCollection,
   updateCollection,
+  getCollection,
+  getItems,
 };
 
 // STUBS
-// const { collections } = require("../../stubs");
-// collections.forEach((collection) => {
-//   Collection.create(collection);
+// const { items } = require("../../stubs");
+// items.forEach((item) => {
+//   Item.create(item);
 // });
