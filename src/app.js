@@ -160,6 +160,45 @@ app.put("/collections/update", async (req, res) => {
   }
 });
 
+app.get("/collection/:collectionId", async (req, res) => {
+  try {
+    const collection = await database.getCollection(req.params.collectionId);
+
+    if (!collection) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No such collection!" });
+    }
+
+    return res.status(200).send({ success: true, collection });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
+app.get("/items/:collectionId", async (req, res) => {
+  try {
+    const collection = await database.getCollection(req.params.collectionId);
+    if (!collection) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No such collection!" });
+    }
+    const items = await database.getItems(req.params.collectionId);
+    return res.status(200).send({ success: true, items });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Listen on port: ${port}`);
 });
