@@ -125,6 +125,7 @@ const Item = sequelize.define("Item", {
   },
   collection_id: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     references: {
       model: Collection,
       key: "id",
@@ -153,7 +154,7 @@ const Item = sequelize.define("Item", {
   custom_int2_value: {
     type: DataTypes.INTEGER,
   },
-  custom_int2_value: {
+  custom_int3_value: {
     type: DataTypes.INTEGER,
   },
   custom_date1_value: {
@@ -265,6 +266,11 @@ async function getItems(collectionId) {
   });
 }
 
+async function createItem(newItem) {
+  console.log("CREATING: ", newItem);
+  return await Item.create(newItem);
+}
+
 module.exports = {
   connect,
   createUser,
@@ -276,6 +282,7 @@ module.exports = {
   updateCollection,
   getCollection,
   getItems,
+  createItem,
 };
 
 // STUBS

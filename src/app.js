@@ -199,6 +199,23 @@ app.get("/items/:collectionId", async (req, res) => {
   }
 });
 
+app.post("/items/create", async (req, res) => {
+  try {
+    const newItem = await database.createItem(req.body.payload);
+    return res.status(200).send({
+      success: true,
+      message: "New item was created successfully!",
+      newItem,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Listen on port: ${port}`);
 });
