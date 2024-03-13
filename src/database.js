@@ -158,13 +158,13 @@ const Item = sequelize.define("Item", {
     type: DataTypes.INTEGER,
   },
   custom_date1_value: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
   },
   custom_date2_value: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
   },
   custom_date3_value: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
   },
   custom_bool1_value: {
     type: DataTypes.BOOLEAN,
@@ -278,6 +278,14 @@ async function deleteItem(itemId) {
   });
 }
 
+async function updateItem({ newItem, itemId }) {
+  return await Item.update(newItem, {
+    where: {
+      id: itemId,
+    },
+  });
+}
+
 module.exports = {
   connect,
   createUser,
@@ -291,6 +299,7 @@ module.exports = {
   getItems,
   createItem,
   deleteItem,
+  updateItem,
 };
 
 // STUBS
