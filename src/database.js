@@ -267,8 +267,15 @@ async function getItems(collectionId) {
 }
 
 async function createItem(newItem) {
-  console.log("CREATING: ", newItem);
   return await Item.create(newItem);
+}
+
+async function deleteItem(itemId) {
+  return await Item.destroy({
+    where: {
+      id: itemId,
+    },
+  });
 }
 
 module.exports = {
@@ -283,6 +290,7 @@ module.exports = {
   getCollection,
   getItems,
   createItem,
+  deleteItem,
 };
 
 // STUBS

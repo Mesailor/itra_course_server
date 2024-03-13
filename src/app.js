@@ -216,6 +216,22 @@ app.post("/items/create", async (req, res) => {
   }
 });
 
+app.delete("/items/delete", async (req, res) => {
+  try {
+    await database.deleteItem(req.body.payload);
+    return res.status(200).send({
+      success: true,
+      message: "Item was deleted successfully!",
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Listen on port: ${port}`);
 });
