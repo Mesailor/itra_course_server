@@ -9,6 +9,8 @@ const {
   validateUserData,
   validateCollectionData,
   validateUpdateCollectionSchema,
+  validateNewItem,
+  validateUpdatedItem,
 } = require("./validator");
 
 const { port, corsOptions } = config.get("serverConfig");
@@ -201,6 +203,13 @@ app.get("/items/:collectionId", async (req, res) => {
 
 app.post("/items/create", async (req, res) => {
   try {
+    const { error } = validateNewItem(req.body.payload);
+    if (error) {
+      return res
+        .status(400)
+        .send({ success: false, message: error.details[0].message });
+    }
+
     const newItem = await database.createItem(req.body.payload);
     return res.status(200).send({
       success: true,
@@ -234,7 +243,12 @@ app.delete("/items/delete", async (req, res) => {
 
 app.put("/items/update", async (req, res) => {
   try {
-    //validation here
+    const { error } = validateUpdatedItem(req.body.payload.newItem);
+    if (error) {
+      return res
+        .status(400)
+        .send({ success: false, message: error.details[0].message });
+    }
 
     await database.updateItem(req.body.payload);
     return res
