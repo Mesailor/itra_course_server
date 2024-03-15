@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const database = require("../database");
+const database = require("../database/database");
 const { validateNewItem, validateUpdatedItem } = require("../validator");
 
 router.get("/:collectionId", async (req, res) => {

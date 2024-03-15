@@ -6,7 +6,7 @@ const accountRouter = require("./routes/account");
 const collectionsRouter = require("./routes/collections");
 const itemsRouter = require("./routes/items");
 
-const database = require("./database");
+const database = require("./database/database");
 
 const { port, corsOptions } = config.get("serverConfig");
 
