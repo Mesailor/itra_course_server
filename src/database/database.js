@@ -64,6 +64,35 @@ async function getManyCollections(collectionIds) {
   });
 }
 
+async function getFiveLargestColls() {
+  const collLengths = await Item.findAll({
+    attributes: [
+      "collection_id",
+      [sequelize.fn("COUNT", sequelize.col("id")), "items_number"],
+    ],
+    group: "collection_id",
+  });
+
+  collLengths.sort((a, b) => {
+    return b.dataValues.items_number - a.dataValues.items_number;
+  });
+
+  collLengths.splice(5);
+
+  const largestCollIds = collLengths.map(
+    (collLength) => collLength.collection_id
+  );
+
+  const largestColls = await getManyCollections(largestCollIds);
+
+  const collections = largestCollIds.map((id) => {
+    for (let collection of largestColls) {
+      if (collection.id == id) return collection;
+    }
+  });
+  return collections;
+}
+
 async function createCollection(newCollection) {
   return await Collection.create(newCollection);
 }
@@ -130,6 +159,7 @@ module.exports = {
   getAllCollections,
   getCollection,
   getManyCollections,
+  getFiveLargestColls,
   createCollection,
   updateImageUrl,
   deleteCollection,

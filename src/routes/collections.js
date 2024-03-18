@@ -6,7 +6,7 @@ const {
   validateUpdateCollectionSchema,
 } = require("../validator");
 
-router.get("/:user_id", async (req, res) => {
+router.get("/user-:user_id", async (req, res) => {
   const user = await database.getUser({ id: req.params.user_id });
   if (!user) {
     return res
@@ -41,6 +41,19 @@ router.post("/many", async (req, res) => {
   try {
     const collections = await database.getManyCollections(req.body.payload);
     return res.status(200).send({ success: true, collections });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
+router.get("/largest", async (req, res) => {
+  try {
+    const collections = await database.getFiveLargestColls();
+    res.status(200).send({ success: true, collections });
   } catch (e) {
     console.log(e);
     return res.status(500).send({
