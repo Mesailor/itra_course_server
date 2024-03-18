@@ -13,8 +13,41 @@ router.get("/:user_id", async (req, res) => {
       .status(404)
       .send({ status: 404, message: "No such userpage exists" });
   }
-  const collections = await database.getCollections(req.params.user_id);
+  const collections = await database.getAllCollections(req.params.user_id);
   res.status(200).send({ status: 200, collections });
+});
+
+router.get("/one/:collectionId", async (req, res) => {
+  try {
+    const collection = await database.getCollection(req.params.collectionId);
+
+    if (!collection) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No such collection!" });
+    }
+
+    return res.status(200).send({ success: true, collection });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
+router.post("/many", async (req, res) => {
+  try {
+    const collections = await database.getManyCollections(req.body.payload);
+    return res.status(200).send({ success: true, collections });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
 });
 
 router.post("/create", async (req, res) => {
@@ -87,26 +120,6 @@ router.put("/update", async (req, res) => {
     return res
       .status(200)
       .send({ success: true, message: "Collection was updated successfully!" });
-  } catch (e) {
-    console.log(e);
-    return res.status(500).send({
-      success: false,
-      message: "Sorry, we have some problems on server...",
-    });
-  }
-});
-
-router.get("/only/:collectionId", async (req, res) => {
-  try {
-    const collection = await database.getCollection(req.params.collectionId);
-
-    if (!collection) {
-      return res
-        .status(404)
-        .send({ success: false, message: "No such collection!" });
-    }
-
-    return res.status(200).send({ success: true, collection });
   } catch (e) {
     console.log(e);
     return res.status(500).send({

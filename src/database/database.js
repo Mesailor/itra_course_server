@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 const config = require("config");
 const bcrypt = require("bcrypt");
 
@@ -40,10 +40,26 @@ async function getUser({ name, id }) {
   return await User.findOne({ where: { id } });
 }
 
-async function getCollections(user_id) {
+async function getAllCollections(user_id) {
   return await Collection.findAll({
     where: {
       user_id,
+    },
+  });
+}
+
+async function getCollection(collectionId) {
+  return await Collection.findOne({
+    where: {
+      id: collectionId,
+    },
+  });
+}
+
+async function getManyCollections(collectionIds) {
+  return await Collection.findAll({
+    where: {
+      [Op.or]: collectionIds.map((id) => ({ id })),
     },
   });
 }
@@ -73,14 +89,6 @@ async function deleteCollection(id) {
 
 async function updateCollection({ newCollection, collectionId }) {
   return await Collection.update(newCollection, {
-    where: {
-      id: collectionId,
-    },
-  });
-}
-
-async function getCollection(collectionId) {
-  return await Collection.findOne({
     where: {
       id: collectionId,
     },
@@ -119,12 +127,13 @@ module.exports = {
   connect,
   createUser,
   getUser,
-  getCollections,
+  getAllCollections,
+  getCollection,
+  getManyCollections,
   createCollection,
   updateImageUrl,
   deleteCollection,
   updateCollection,
-  getCollection,
   getItems,
   createItem,
   deleteItem,
