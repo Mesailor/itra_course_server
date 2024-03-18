@@ -71,10 +71,7 @@ async function getFiveLargestColls() {
       [sequelize.fn("COUNT", sequelize.col("id")), "items_number"],
     ],
     group: "collection_id",
-  });
-
-  collLengths.sort((a, b) => {
-    return b.dataValues.items_number - a.dataValues.items_number;
+    order: [["items_number", "DESC"]],
   });
 
   collLengths.splice(5);
