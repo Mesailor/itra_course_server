@@ -68,6 +68,7 @@ const Collection = sequelize.define(
     },
   },
   {
+    indexes: [{ fields: ["user_id"] }],
     timestamps: false,
   }
 );
