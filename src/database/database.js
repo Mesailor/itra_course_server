@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 const config = require("config");
 const bcrypt = require("bcrypt");
 
@@ -40,12 +40,54 @@ async function getUser({ name, id }) {
   return await User.findOne({ where: { id } });
 }
 
-async function getCollections(user_id) {
+async function getAllCollections(user_id) {
   return await Collection.findAll({
     where: {
       user_id,
     },
   });
+}
+
+async function getCollection(collectionId) {
+  return await Collection.findOne({
+    where: {
+      id: collectionId,
+    },
+  });
+}
+
+async function getManyCollections(collectionIds) {
+  return await Collection.findAll({
+    where: {
+      [Op.or]: collectionIds.map((id) => ({ id })),
+    },
+  });
+}
+
+async function getFiveLargestColls() {
+  const collLengths = await Item.findAll({
+    attributes: [
+      "collection_id",
+      [sequelize.fn("COUNT", sequelize.col("id")), "items_number"],
+    ],
+    group: "collection_id",
+    order: [["items_number", "DESC"]],
+  });
+
+  collLengths.splice(5);
+
+  const largestCollIds = collLengths.map(
+    (collLength) => collLength.collection_id
+  );
+
+  const largestColls = await getManyCollections(largestCollIds);
+
+  const collections = largestCollIds.map((id) => {
+    for (let collection of largestColls) {
+      if (collection.id == id) return collection;
+    }
+  });
+  return collections;
 }
 
 async function createCollection(newCollection) {
@@ -79,18 +121,18 @@ async function updateCollection({ newCollection, collectionId }) {
   });
 }
 
-async function getCollection(collectionId) {
-  return await Collection.findOne({
-    where: {
-      id: collectionId,
-    },
-  });
-}
-
 async function getItems(collectionId) {
   return await Item.findAll({
     where: {
       collection_id: collectionId,
+    },
+  });
+}
+
+async function getItem(id) {
+  return await Item.findOne({
+    where: {
+      id,
     },
   });
 }
@@ -119,13 +161,16 @@ module.exports = {
   connect,
   createUser,
   getUser,
-  getCollections,
+  getAllCollections,
+  getCollection,
+  getManyCollections,
+  getFiveLargestColls,
   createCollection,
   updateImageUrl,
   deleteCollection,
   updateCollection,
-  getCollection,
   getItems,
+  getItem,
   createItem,
   deleteItem,
   updateItem,
