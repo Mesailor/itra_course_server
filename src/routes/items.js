@@ -22,6 +22,19 @@ router.get("/:collectionId", async (req, res) => {
   }
 });
 
+router.get("/one/:itemId", async (req, res) => {
+  try {
+    const item = await database.getItem(req.params.itemId);
+    res.status(200).send({ success: true, item });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({
+      success: false,
+      message: "Sorry, we have some problems on server...",
+    });
+  }
+});
+
 router.post("/create", async (req, res) => {
   try {
     const { error } = validateNewItem(req.body.payload);

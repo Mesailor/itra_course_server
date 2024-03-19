@@ -129,6 +129,14 @@ async function getItems(collectionId) {
   });
 }
 
+async function getItem(id) {
+  return await Item.findOne({
+    where: {
+      id,
+    },
+  });
+}
+
 async function createItem(newItem) {
   return await Item.create(newItem);
 }
@@ -162,6 +170,7 @@ module.exports = {
   deleteCollection,
   updateCollection,
   getItems,
+  getItem,
   createItem,
   deleteItem,
   updateItem,
