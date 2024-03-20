@@ -23,7 +23,7 @@ const Item = sequelize.define(
       allowNull: false,
       defaultValue: "New Item",
       validate: {
-        is: /^[a-zA-Z0-9 ]*$/,
+        is: /^[a-zA-Z0-9 ]{0,255}$/,
       },
     },
     tags: {
