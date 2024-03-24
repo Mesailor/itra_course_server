@@ -10,46 +10,50 @@ const userSchema = Joi.object({
 const collectionSchema = Joi.object({
   user_id: Joi.number().required(),
   name: Joi.string()
-    .pattern(new RegExp(/[a-zA-Z0-9 ]{1,32}/))
     .min(1)
-    .max(32)
+    .max(255)
+    .pattern(new RegExp(/[a-zA-Z0-9 ]+/))
     .required(),
-  topic: Joi.string().pattern(new RegExp(/^[a-zA-Z]{1,16}$/)),
+  topic: Joi.string().pattern(new RegExp(/^[a-zA-Z]{1,255}$/)),
   description: Joi.string().pattern(new RegExp(/^[!-z \n]*$/)),
-  imageUrl: Joi.string(),
+  imageUrl: Joi.string().max(1024),
   itemsSchema: Joi.string().required(),
 });
 
 const updateCollectionSchema = Joi.object({
   name: Joi.string()
-    .pattern(new RegExp(/[a-zA-Z0-9 ]{1,32}/))
     .min(1)
-    .max(32)
+    .max(255)
+    .pattern(new RegExp(/[a-zA-Z0-9 ]+/))
     .required(),
-  topic: Joi.string().pattern(new RegExp(/^[a-zA-Z]{1,16}$/)),
+  topic: Joi.string().pattern(new RegExp(/^[a-zA-Z]{1,255}$/)),
   description: Joi.string().pattern(new RegExp(/^[!-z \n]*$/)),
-  imageUrl: Joi.string(),
+  imageUrl: Joi.string().max(1024),
   itemsSchema: Joi.string().required(),
 });
 
 const itemSchema = Joi.object({
   collection_id: Joi.number().required(),
   name: Joi.string()
-    .pattern(/^[a-zA-Z0-9 ]*$/)
     .allow("")
+    .max(255)
+    .pattern(/^[a-zA-Z0-9 ]{0,255}$/)
     .required(),
   tags: Joi.string().required(),
   custom_str1_value: Joi.string()
-    .pattern(/[!-z ]{0,255}/)
     .allow("")
+    .max(255)
+    .pattern(/[!-z ]{0,255}/)
     .required(),
   custom_str2_value: Joi.string()
-    .pattern(/[!-z ]{0,255}/)
     .allow("")
+    .max(255)
+    .pattern(/[!-z ]{0,255}/)
     .required(),
   custom_str3_value: Joi.string()
-    .pattern(/[!-z ]{0,255}/)
     .allow("")
+    .max(255)
+    .pattern(/[!-z ]{0,255}/)
     .required(),
   custom_int1_value: Joi.number().required(),
   custom_int2_value: Joi.number().required(),
@@ -76,21 +80,25 @@ const itemSchema = Joi.object({
 
 const updatedItemSchema = Joi.object({
   name: Joi.string()
-    .pattern(/^[a-zA-Z0-9 ]*$/)
+    .max(255)
     .allow("")
+    .pattern(/^[a-zA-Z0-9 ]*$/)
     .required(),
   tags: Joi.string().required(),
   custom_str1_value: Joi.string()
-    .pattern(/[!-z ]{0,255}/)
     .allow("")
+    .max(255)
+    .pattern(/[!-z ]{0,255}/)
     .required(),
   custom_str2_value: Joi.string()
-    .pattern(/[!-z ]{0,255}/)
     .allow("")
+    .max(255)
+    .pattern(/[!-z ]{0,255}/)
     .required(),
   custom_str3_value: Joi.string()
-    .pattern(/[!-z ]{0,255}/)
     .allow("")
+    .max(255)
+    .pattern(/[!-z ]{0,255}/)
     .required(),
   custom_int1_value: Joi.number().required(),
   custom_int2_value: Joi.number().required(),

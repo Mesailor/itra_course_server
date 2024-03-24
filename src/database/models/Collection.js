@@ -19,12 +19,12 @@ const Collection = sequelize.define(
       },
     },
     name: {
-      type: DataTypes.STRING(32),
+      type: DataTypes.STRING(),
       allowNull: false,
       defaultValue: "My collection",
       validate: {
-        len: [1, 32],
-        is: /[a-zA-Z0-9 ]{1,32}/,
+        is: /^[a-zA-Z0-9 ]+$/,
+        len: [1, 255],
       },
     },
     topic: {
@@ -41,9 +41,9 @@ const Collection = sequelize.define(
       },
     },
     imageUrl: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1024),
       allowNull: false,
-      defaultValue: "url_of_default_image",
+      defaultValue: "",
     },
     itemsSchema: {
       type: DataTypes.JSON,
@@ -68,6 +68,7 @@ const Collection = sequelize.define(
     },
   },
   {
+    indexes: [{ fields: ["user_id"] }],
     timestamps: false,
   }
 );
