@@ -23,7 +23,8 @@ const Collection = sequelize.define(
       allowNull: false,
       defaultValue: "My collection",
       validate: {
-        is: /[a-zA-Z0-9 ]{0,255}/,
+        is: /^[a-zA-Z0-9 ]+$/,
+        len: [1, 255],
       },
     },
     topic: {
