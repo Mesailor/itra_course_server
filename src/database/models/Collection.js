@@ -43,7 +43,8 @@ const Collection = sequelize.define(
     imageUrl: {
       type: DataTypes.STRING(1024),
       allowNull: false,
-      defaultValue: "",
+      defaultValue:
+        "https://firebasestorage.googleapis.com/v0/b/itra-collections.appspot.com/o/default%2Fdefault_collection_image.jpg?alt=media&token=7389f98e-03bc-4a79-8880-10009d41d818https://firebasestorage.googleapis.com/v0/b/itra-collections.appspot.com/o/default%2Fdefault_collection_image.jpg?alt=media&token=baa0b64d-28d3-45e0-900a-a482cfddac18",
     },
     itemsSchema: {
       type: DataTypes.JSON,
