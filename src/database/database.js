@@ -106,6 +106,11 @@ async function updateImageUrl({ imageUrl, collectionId }) {
 }
 
 async function deleteCollection(id) {
+  await Item.destroy({
+    where: {
+      collection_id: id,
+    },
+  });
   return await Collection.destroy({
     where: {
       id,
