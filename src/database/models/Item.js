@@ -81,24 +81,24 @@ const Item = sequelize.define(
     },
     custom_date1_value: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
-      defaultValue: "2024-01-01",
+      allowNull: true,
+      defaultValue: "0000-01-01",
       validate: {
         isDate: true,
       },
     },
     custom_date2_value: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
-      defaultValue: "2024-01-01",
+      allowNull: true,
+      defaultValue: "0000-01-01",
       validate: {
         isDate: true,
       },
     },
     custom_date3_value: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
-      defaultValue: "2024-01-01",
+      allowNull: true,
+      defaultValue: "0000-01-01",
       validate: {
         isDate: true,
       },
