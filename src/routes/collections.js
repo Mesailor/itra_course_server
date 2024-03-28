@@ -32,11 +32,10 @@ async function validateJwt(req, res, next) {
     }
     next();
   } catch (err) {
-    if (err) {
-      return res
-        .status(401)
-        .send({ success: false, message: "Invalid token was sent" });
-    }
+    console.log(err);
+    return res
+      .status(401)
+      .send({ success: false, message: "Invalid token was sent" });
   }
 }
 

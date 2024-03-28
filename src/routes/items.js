@@ -38,11 +38,10 @@ async function validateJwt(req, res, next) {
       message: "JWT check failed. Invalid payload was send.",
     });
   } catch (err) {
-    if (err) {
-      return res
-        .status(401)
-        .send({ success: false, message: "Invalid token was sent" });
-    }
+    console.log(err);
+    return res
+      .status(401)
+      .send({ success: false, message: "Invalid token was sent" });
   }
 }
 
