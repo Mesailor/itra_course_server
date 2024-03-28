@@ -1,7 +1,53 @@
 const express = require("express");
+const config = require("config");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const database = require("../database/database");
 const { validateNewItem, validateUpdatedItem } = require("../validator");
+
+async function validateJwt(req, res, next) {
+  const jwtSecret = config.get("jwtSecret");
+  try {
+    const decoded = jwt.verify(req.body.token, jwtSecret);
+
+    const { itemId, collection_id } = req.body.payload;
+
+    if (itemId) {
+      const item = await database.getItem(itemId);
+      const collecion = await database.getCollection(item.collection_id);
+      if (collecion.user_id !== decoded.id) {
+        return res
+          .status(401)
+          .send({ success: false, message: "User unauthorized" });
+      }
+      return next();
+    }
+
+    if (collection_id) {
+      const collecion = await database.getCollection(collection_id);
+      if (collecion.user_id !== decoded.id) {
+        return res
+          .status(401)
+          .send({ success: false, message: "User unauthorized" });
+      }
+      return next();
+    }
+
+    res.status(404).send({
+      success: false,
+      message: "JWT check failed. Invalid payload was send.",
+    });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(401)
+      .send({ success: false, message: "Invalid token was sent" });
+  }
+}
+
+router.use("/create", validateJwt);
+router.use("/delete", validateJwt);
+router.use("/update", validateJwt);
 
 router.get("/:collectionId", async (req, res) => {
   try {
@@ -61,7 +107,7 @@ router.post("/create", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
   try {
-    await database.deleteItem(req.body.payload);
+    await database.deleteItem(req.body.payload.itemId);
     return res.status(200).send({
       success: true,
       message: "Item was deleted successfully!",
