@@ -1,10 +1,49 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 const router = express.Router();
 const database = require("../database/database");
 const {
   validateCollectionData,
   validateUpdateCollectionSchema,
 } = require("../validator");
+
+async function validateJwt(req, res, next) {
+  const jwtSecret = config.get("jwtSecret");
+  try {
+    const decoded = jwt.verify(req.body.token, jwtSecret);
+
+    const { collectionId, user_id } = req.body.payload;
+
+    if (collectionId) {
+      const collecion = await database.getCollection(collectionId);
+      if (collecion.user_id !== decoded.id) {
+        return res
+          .status(401)
+          .send({ success: false, message: "User unauthorized" });
+      }
+      return next();
+    }
+
+    if (user_id !== decoded.id) {
+      return res
+        .status(401)
+        .send({ success: false, message: "User unauthorized" });
+    }
+    next();
+  } catch (err) {
+    if (err) {
+      return res
+        .status(401)
+        .send({ success: false, message: "Invalid token was sent" });
+    }
+  }
+}
+
+router.use("/create", validateJwt);
+router.use("/updateImageUrl", validateJwt);
+router.use("/update", validateJwt);
+router.use("/delete", validateJwt);
 
 router.get("/user-:user_id", async (req, res) => {
   const user = await database.getUser({ id: req.params.user_id });
@@ -104,7 +143,7 @@ router.put("/updateImageUrl", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
   try {
-    await database.deleteCollection(req.body.payload);
+    await database.deleteCollection(req.body.payload.collectionId);
     return res.status(200).send({
       success: true,
       message: "Collection was deleted successfully!",
