@@ -9,11 +9,7 @@ const userSchema = Joi.object({
 
 const collectionSchema = Joi.object({
   user_id: Joi.number().required(),
-  name: Joi.string()
-    .min(1)
-    .max(255)
-    .pattern(new RegExp(/[a-zA-Z0-9 ]+/))
-    .required(),
+  name: Joi.string().min(1).max(255).required(),
   topic: Joi.string().pattern(new RegExp(/^[a-zA-Z]{1,255}$/)),
   description: Joi.string().pattern(new RegExp(/^[!-z \n]*$/)),
   imageUrl: Joi.string().max(1024),
@@ -21,11 +17,7 @@ const collectionSchema = Joi.object({
 });
 
 const updateCollectionSchema = Joi.object({
-  name: Joi.string()
-    .min(1)
-    .max(255)
-    .pattern(new RegExp(/[a-zA-Z0-9 ]+/))
-    .required(),
+  name: Joi.string().min(1).max(255).required(),
   topic: Joi.string().pattern(new RegExp(/^[a-zA-Z]{1,255}$/)),
   description: Joi.string().pattern(new RegExp(/^[!-z \n]*$/)),
   imageUrl: Joi.string().max(1024),
