@@ -49,6 +49,10 @@ async function getAllCollections(user_id) {
   });
 }
 
+async function getUsers() {
+  return await User.findAll();
+}
+
 async function getCollection(collectionId) {
   return await Collection.findOne({
     where: {
@@ -167,6 +171,7 @@ module.exports = {
   connect,
   createUser,
   getUser,
+  getUsers,
   getAllCollections,
   getCollection,
   getManyCollections,
