@@ -25,10 +25,11 @@ async function connect() {
   }
 }
 
-async function createUser({ name, password }) {
+async function createUser({ name, password, isAdmin }) {
   const newUser = {
     name,
     password: await bcrypt.hash(password, 10),
+    isAdmin,
   };
   return await User.create(newUser);
 }

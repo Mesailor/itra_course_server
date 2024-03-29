@@ -5,6 +5,7 @@ const userSchema = Joi.object({
   password: Joi.string()
     .pattern(new RegExp(/^[!-z]{8,64}$/))
     .required(),
+  isAdmin: Joi.boolean().allow(null),
 });
 
 const collectionSchema = Joi.object({

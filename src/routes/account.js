@@ -18,9 +18,13 @@ router.post("/", async (req, res) => {
         .send({ success: false, message: "Wrong name or password!" });
     }
 
-    const jwtToken = jwt.sign({ id: user.dataValues.id }, jwtSecret, {
-      expiresIn: "1h",
-    });
+    const jwtToken = jwt.sign(
+      { id: user.dataValues.id, isAdmin: user.dataValues.isAdmin },
+      jwtSecret,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     res.status(200).send({
       success: true,
@@ -47,9 +51,13 @@ router.post("/signup", async (req, res) => {
     }
 
     const newUser = await database.createUser(req.body);
-    const jwtToken = jwt.sign({ id: newUser.dataValues.id }, jwtSecret, {
-      expiresIn: "1h",
-    });
+    const jwtToken = jwt.sign(
+      { id: newUser.dataValues.id, isAdmin: newUser.dataValues.isAdmin },
+      jwtSecret,
+      {
+        expiresIn: "1h",
+      }
+    );
     res.status(200).send({
       success: true,
       user: { ...newUser.dataValues, password: null },

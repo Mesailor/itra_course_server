@@ -15,7 +15,7 @@ async function validateJwt(req, res, next) {
     if (itemId) {
       const item = await database.getItem(itemId);
       const collecion = await database.getCollection(item.collection_id);
-      if (collecion.user_id !== decoded.id) {
+      if (collecion.user_id !== decoded.id && decoded.isAdmin !== true) {
         return res
           .status(401)
           .send({ success: false, message: "User unauthorized" });
@@ -25,7 +25,7 @@ async function validateJwt(req, res, next) {
 
     if (collection_id) {
       const collecion = await database.getCollection(collection_id);
-      if (collecion.user_id !== decoded.id) {
+      if (collecion.user_id !== decoded.id && decoded.isAdmin !== true) {
         return res
           .status(401)
           .send({ success: false, message: "User unauthorized" });
